@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Radmon by rinchen</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Radmon</h1>
+          <h2>Radiation Monitor Software</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/rinchen/radmon/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/rinchen/radmon/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/rinchen/radmon" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a name="radiation-monitor" class="anchor" href="#radiation-monitor"><span class="octicon octicon-link"></span></a>Radiation Monitor</h1>
+
+<p>This site is about the open source code powering a hobbyist radiation detector, the detector itself, and it's example implementation in Colorado.</p>
+
+<p><strong>Last Service Update: 2013-09-26</strong></p>
+
+<p>For some reason Xively doesn't update on their end even though I'm sending them data. I filed a bug report but haven't heard anything back.</p>
+
+<p><strong>Disclaimer</strong>: I'm not an expert. I just log data as a hobby because it's interesting to me. The detector used to log the data is not a high-precision highly-calibrated instrument but it is in use in Japan. This is only one device. You need multiple samples from multiple devices to draw any practical conclusion.</p>
+
+<h2>
+<a name="overview" class="anchor" href="#overview"><span class="octicon octicon-link"></span></a>Overview</h2>
+
+<p>This code runs on an indoor radiation monitor setup in Longmont, Colorado, USA. </p>
+
+<p>The detector is located sub-ground level near a window. Radon gas is a steady 1.2 pCi/L. Above-ground indoor vs below-ground indoor testing indicated no appreciable differences during several test runs. Therefore, the measurements here should represent the worst case indoor exposure. </p>
+
+<p>The detector is a <a href="http://www.libelium.com/">Libelium</a> made <a href="http://www.cooking-hacks.com/index.php/pack-radiation-sensor-board-for-arduino-geiger-tube.html">Radiation Sensor Board</a> for Arduino. It's mated to an Arduino Uno and hooked up via a 25 foot active USB cable to a Raspberry Pi. This Github repository contains both the Arduino code and the python code which runs on the Raspberry Pi. </p>
+
+<h2>
+<a name="measurement-interpretation" class="anchor" href="#measurement-interpretation"><span class="octicon octicon-link"></span></a>Measurement Interpretation</h2>
+
+<p>Colorado can see up to four times over natural radiation predominately due to altitude but in some areas due to radioactive ore and radon gas. Brief spikes have been noted and matched up using a <a href="http://sid.stanford.edu/">SID array</a> to solar flares. If you monitor the real-time values you'll see them drop slightly during the night and be higher during the day due to naturally occurring solar radiation. You can explore recent flares via the awesome <a href="http://sid.stanford.edu/database-browser/">SID Database Browser</a>.</p>
+
+<p>Don't be alarmed by high Count Per Minute (CPM) values or high "times over natural radiation" figures. CPM varies by detector and as such is not a reliable measurement. The "times over natural radiation" figure is not (in a practical sense) that important because of the small scale we're dealing with (e.g. 4 x 0.27 is still a small number especially since we're measuring in Microsieverts (vs Milisieverts or even Sieverts). The key number on this page is the Microsievert (μSv) number. As a reference, natural background radiation is 0.27 μSv/h. For some graphical representations of radiation measurements please see <a href="https://xkcd.com/radiation/">xkcd's radiation chart</a> and Dave &amp; Matt's <a href="http://www.informationisbeautiful.net/visualizations/radiation-dosage-chart/">Radiation Dosage Chart</a>.</p>
+
+<p>Now, all of that said, not everything is due to solar flares, ore, and gas. Some of it can be construed to belong to <a href="https://en.wikipedia.org/wiki/Radiation_effects_from_Fukushima_Daiichi_nuclear_disaster">Fukishima Daiichi</a> as announced in <a href="http://enenews.com/head-researcher-boulder-colorado-hot-spot-fukushima-fallout-other-canadian-samples-came-close-boulders-contamination-except-portland-higher">this disclosure</a> and reported in <a href="http://www.durangoherald.com/article/20110324/NEWS01/703249947/JapaneseradiationdetectedinColorado">this newspaper article</a> and <a href="http://www.denverpost.com/commented/ci_17686876">this newspaper article</a>.</p>
+
+<h2>
+<a name="calibration" class="anchor" href="#calibration"><span class="octicon octicon-link"></span></a>Calibration</h2>
+
+<p>The detector is calibrated using 1 μCi of CS-137 at 4cm which theoretically will produce 1.768 μSv/h. The test source is nominally +/- 20%. Note: All data prior to 2012-07-11 should be thrown out as a large calibration error was discovered and fixed.</p>
+
+<h2>
+<a name="data-feeds" class="anchor" href="#data-feeds"><span class="octicon octicon-link"></span></a>Data Feeds</h2>
+
+<ul>
+<li>
+<a href="https://twitter.com/LongmontRadMon">Real-time Raw Data Twitter Feed</a> (high volume)</li>
+<li>
+<a href="https://twitter.com/LMRadMonAlert">Alert-only Twitter Feed</a> (low volume)</li>
+<li>
+<a href="https://xively.com/feeds/30643">Xively</a> (Graphs and comments)</li>
+</ul><h2>
+<a name="other-sites" class="anchor" href="#other-sites"><span class="octicon octicon-link"></span></a>Other Sites</h2>
+
+<ul>
+<li>A <a href="http://www.exstrom.com/bcrad1.html">2006 Article</a> on radiation in Boulder County</li>
+<li>A <a href="http://www.youtube.com/watch?v=Wq9vSLRGnpI">2011 Youtube video</a> showing radiation at Doudy Draw trail-head</li>
+<li><a href="http://www.rockyflatsnuclearguardianship.org/">Rocky Flats Nuclear Guardianship Organization</a></li>
+<li>2011 claim that <a href="http://mtnweekly.com/radiation-levels-in-colorado-highest-in-world-16210">Radiation Levels in Colorado Highest in World</a>
+</li>
+<li>In 2012 this site became a bit famous as calibration errors crept into the readings and were published around the Internet citing government cover-up. It ended up in an <a href="https://xkcd.com/1079/colorado/">XKCD Strip</a> via a reference to Longmont Radiation.</li>
+<li>Google "Colorado Radiation" for some "light" reading....</li>
+</ul>
+        </section>
+
+        <footer>
+          Radmon is maintained by <a href="https://github.com/rinchen">rinchen</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
