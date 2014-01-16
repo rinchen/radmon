@@ -89,7 +89,7 @@ while 1:
 #            + message[2] + ' AVG uSv/h, ' + message[3] \
 #            + ' time(s) over natural radiation'
 
-# High radiation is anything over 100 milirems, aka 1000 μSv so let's
+# High radiation is anything over 100 milirems, aka 1000 uSv so let's
 # provide some hopefully helpful commentary on twitter.
 # We can use the on-board average to help filter out anomalies.
 # There is probably a better way to do this.
