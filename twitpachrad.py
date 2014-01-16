@@ -93,8 +93,8 @@ while 1:
 # provide some hopefully helpful commentary on twitter.
 # We can use the on-board average to help filter out anomalies.
 # There is probably a better way to do this.
-    usv_reading = int(message[1])
-    usv_average = int(message[2])
+    usv_reading = float(message[1])
+    usv_average = float(message[2])
     interpretation = ""
     if usv_reading <= 1.2:
         interpretation = "(normal range)"
