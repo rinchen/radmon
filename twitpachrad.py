@@ -44,9 +44,10 @@ X_FEED_ID = 30643
 x_api = xively.XivelyAPIClient(X_API_KEY)
 x_feed = x_api.feeds.get(X_FEED_ID)
 
-#arduino = serial.Serial('/dev/tty.usbmodem1d1341', 19200)
-arduino = serial.Serial('/dev/ttyACM0', 19200)
 #normally ttyACM0
+arduino = serial.Serial('/dev/ttyACM0', 19200)
+# for Mac OS X
+#arduino = serial.Serial('/dev/tty.usbmodem1d1341', 19200)
 
 # we don't want to spam twitter
 twitter_counter = 0
@@ -59,23 +60,60 @@ while 1:
     if args.verbose:
         print "Readline: %s\n" % message
 
-    try:
-    # sometimes on the first pull we get bogus data
-    #fix realine errors for usv
-        if float(message[0]) < 200:
-            if float(message[1]) > 20:
-                message[1] = str(float(message[1]) / 100)
-            if float(message[2]) > 20:
-                message[2] = str(float(message[2]) / 100)
-        twitter_message = message[0] + ' CPM, ' + message[1] + ' uSv/h, ' \
-            + message[2] + ' AVG uSv/h, ' + message[3] \
-            + ' time(s) over natural radiation'
-        if args.verbose:
-            print "Twitter: %s\n" % twitter_message
-    except:
-        print "Received bogus data"
-        print "%s" % message
-        continue
+# On Mac OS X, there is a python-readline bug which will often
+# produce bogus data on the first pull. Until that bug is fixed
+# you'll need to include some sort of fix loop like this:
+#    try:
+#    #fix readline errors for usv
+#        if float(message[0]) < 200:
+#            if float(message[1]) > 20:
+#                message[1] = str(float(message[1]) / 100)
+#            if float(message[2]) > 20:
+#                message[2] = str(float(message[2]) / 100)
+#        twitter_message = message[0] + ' CPM, ' + message[1] + ' uSv/h, ' \
+#            + message[2] + ' AVG uSv/h, ' + message[3] \
+#            + ' time(s) over natural radiation'
+#        if args.verbose:
+#            print "Twitter: %s\n" % twitter_message
+#    except:
+#        print "Received bogus data"
+#        print "%s" % message
+#        continue
+
+# This is the original twitter message with all of the data. People will not
+# read the web page that describes how to interpret this and will start
+# panicking at the "times(s) over natural radiation". Because of this
+# we'll default to something less scary. The code is left here for your
+# reference.
+#        twitter_message = message[0] + ' CPM, ' + message[1] + ' uSv/h, ' \
+#            + message[2] + ' AVG uSv/h, ' + message[3] \
+#            + ' time(s) over natural radiation'
+
+# High radiation is anything over 100 milirems, aka 1000 μSv so let's
+# provide some hopefully helpful commentary on twitter.
+# We can use the on-board average to help filter out anomalies.
+# There is probably a better way to do this.
+    usv_reading = int(message[1])
+    usv_average = int(message[2])
+    interpretation = ""
+    if usv_reading <= 1.2:
+        interpretation = "(normal range)"
+    elif usv_reading > 1.2 and usv_reading <= 250:
+        interpretation = "(slightly elevated)"
+    elif (usv_reading > 250 and usv_reading <= 499) \
+            and (usv_average > 250):
+        interpretation = "(Elevated reading)"
+    elif (usv_reading > 499 and usv_reading <= 999) \
+            and (usv_average > 499):
+        interpretation = "(Pre-Alarm! Significantly Elevated.)"
+    elif usv_reading > 999 and usv_average > 999:
+        interpretation = "(Radiation Alarm! [or the detector is broken])"
+    else:
+        interpretation = "(Disregard: failed quality control check)"
+
+    twitter_message = message[1] + ' uSv/h ' + interpretation
+    if args.verbose:
+        print "Twitter: %s\n" % twitter_message
 
     # send data to twitter every 10 minutes so we don't spam them
     if (twitter_counter >= 10 and not args.noop):
