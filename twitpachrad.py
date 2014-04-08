@@ -40,7 +40,7 @@ twitter_api = twitter.Api(consumer_key=consumer_key,
 
 # xively
 X_API_KEY = ""
-X_FEED_ID = 30643
+X_FEED_ID = 12345
 x_api = xively.XivelyAPIClient(X_API_KEY)
 x_feed = x_api.feeds.get(X_FEED_ID)
 
@@ -118,7 +118,7 @@ while 1:
     # send data to twitter every 10 minutes so we don't spam them
     if (twitter_counter >= 10 and not args.noop):
         try:
-            status = twitter_api.PostUpdate(twitter_message)
+            __ = twitter_api.PostUpdate(twitter_message)
         except:
             print "Twitter error", sys.exc_info()[0]
         else:
