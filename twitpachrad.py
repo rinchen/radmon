@@ -52,7 +52,7 @@ arduino = serial.Serial('/dev/ttyACM0', 19200)
 # we don't want to spam twitter
 twitter_counter = 0
 
-while 1:
+while True:
 
     # get the data and assemble it
     message = arduino.readline()
