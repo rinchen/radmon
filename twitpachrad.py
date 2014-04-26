@@ -96,7 +96,7 @@ while True:
 #
 # Sometimes we get a back packet back resulting in us not having a
 # message[2].
-    if len(message) > 1:
+    if len(message) > 2:
         usv_reading = float(message[1])
         usv_average = float(message[2])
         interpretation = ""
