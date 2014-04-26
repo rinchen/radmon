@@ -139,8 +139,11 @@ while True:
                 ]
                 x_feed.update()
             except:
-                print "Xively error:", sys.exc_info()[0]
+                print "Xively error: %s" % (sys.exc_info()[0])
 
         twitter_counter += 1
+    else:
+        print "Malformed readline: %s" % (message)
+
     # sleep for 1 minute
     time.sleep(60)
