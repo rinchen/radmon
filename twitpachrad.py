@@ -22,7 +22,7 @@ def readConfigFile(configfile):
         config.read(configfile)
     except:
         print 'Config File Error'
-        exit(0)
+        exit(1)
     return config
 
 
@@ -178,7 +178,7 @@ if __name__ == "__main__":
                         default=False)
     args = parser.parse_args()
 
-    configfile = "twitpatchrad.ini"
+    configfile = "twitpachrad.ini"
 
     config = readConfigFile(configfile)
 
