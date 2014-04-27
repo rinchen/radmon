@@ -106,6 +106,8 @@ def main():
             try:
                 usv_reading = float(message[1])
                 usv_average = float(message[2])
+                float(message[0])
+                float(message[3])
             except:
                 print "Malformed readline: %s" % (message)
             else:
