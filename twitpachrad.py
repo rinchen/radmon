@@ -102,7 +102,7 @@ def main():
     #
     # Sometimes we get a back packet back resulting in us not having a
     # message[2]. And sometimes we just get a bad readline.
-        if len(message) > 4:
+        if len(message) == 4:
             try:
                 usv_reading = float(message[1])
                 usv_average = float(message[2])
