@@ -102,7 +102,7 @@ def main():
     #
     # Sometimes we get a back packet back resulting in us not having a
     # message[2]. And sometimes we just get a bad readline.
-        if len(message) > 2:
+        if len(message) > 4:
             try:
                 usv_reading = float(message[1])
                 usv_average = float(message[2])
@@ -129,7 +129,7 @@ def main():
                     interpretation = \
                         "(Disregard: failed quality control check)"
 
-                twitter_message = message[1] + ' uSv/h ' + interpretation
+                twitter_message = str(message[1]) + ' uSv/h ' + interpretation
                 if args.verbose:
                     print "Twitter: %s\n" % twitter_message
 
@@ -143,7 +143,7 @@ def main():
                     else:
                         twitter_counter = 0
 
-                #send data to xively
+                # send data to xively
                 if not args.noop:
                     try:
                         x_feed.datastreams = [
