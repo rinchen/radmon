@@ -112,7 +112,10 @@ def main():
                 print "Malformed readline: %s" % (message)
             else:
                 interpretation = ""
-                if usv_reading <= 1.2:
+                if usv_reading == 0:
+                    print "Malformed readline: %s" % (message)
+                    continue
+                elif usv_reading <= 1.2:
                     interpretation = "(normal range)"
                 elif usv_reading > 1.2 and usv_reading <= 250:
                     interpretation = "(slightly elevated)"
