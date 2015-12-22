@@ -16,17 +16,19 @@ import xively
 import ConfigParser
 
 
-def readConfigFile(configfile):
+def readconfigfile(configfile):
+    """read in cofiguration file"""
     config = ConfigParser.ConfigParser()
     try:
         config.read(configfile)
-    except:
-        print 'Config File Error'
+    except ConfigParser.Error, err:
+        print 'Config File Error', err
         exit(1)
     return config
 
 
 def main():
+    "main function"
 
     # twitter
     encoding = None
@@ -185,6 +187,6 @@ if __name__ == "__main__":
 
     configfile = "twitpachrad.ini"
 
-    config = readConfigFile(configfile)
+    config = readconfigfile(configfile)
 
     main()

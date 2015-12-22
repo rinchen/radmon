@@ -1,3 +1,5 @@
+[![Code Issues](https://www.quantifiedcode.com/api/v1/project/086cd17867a7461aaf093d2ec279028d/badge.svg)](https://www.quantifiedcode.com/app/project/086cd17867a7461aaf093d2ec279028d)
+
 radmon
 ======
 
