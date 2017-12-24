@@ -12,7 +12,6 @@ import serial
 import time
 import sys
 import argparse
-import xively
 import ConfigParser
 
 
@@ -42,12 +41,6 @@ def main():
                               access_token_key=access_token_key,
                               access_token_secret=access_token_secret,
                               input_encoding=encoding)
-
-    # xively
-    X_API_KEY = config.get("Xively", "X_API_KEY")
-    X_FEED_ID = config.get("Xively", "X_FEED_ID")
-    x_api = xively.XivelyAPIClient(X_API_KEY)
-    x_feed = x_api.feeds.get(X_FEED_ID)
 
     # Arduino Serial port
     arduino_serial = config.get("Arduino", "serial")
@@ -144,26 +137,9 @@ def main():
                         __ = twitter_api.PostUpdate(twitter_message)
                     except:
                         print "Twitter error: %s, Message: %s" % \
-                            (sys.exc_info()[0], message)
+                            (sys.exc_info()[0], twitter_message)
                     else:
                         twitter_counter = 0
-
-                # send data to xively
-                if not args.noop:
-                    try:
-                        x_feed.datastreams = [
-                            xively.Datastream(id='CPM',
-                                              current_value=message[0]),
-                            xively.Datastream(id='USV',
-                                              current_value=message[1]),
-                            xively.Datastream(id='USVAVG',
-                                              current_value=message[2]),
-                            xively.Datastream(id='X',
-                                              current_value=message[3]),
-                        ]
-                        x_feed.update()
-                    except:
-                        print "Xively error: %s" % (sys.exc_info()[0])
 
             twitter_counter += 1
         else:  # len(message)
@@ -176,7 +152,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Receive Radiation'
                                      ' data from arduino and post to'
-                                     ' twitter and xively.')
+                                     ' twitter.')
     parser.add_argument("-n", "--noop", action="store_true", dest="noop",
                         help='''Do not post data online. Use with -v''',
                         default=False)
